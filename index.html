@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecionando...</title>
-
+    <title>Núcleo de Pesquisa e Caça de Asteroides</title>
+    
     <style>
         body {
             font-family: monospace, sans-serif;
@@ -22,78 +22,11 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <h2 id="status">Verificando redirecionamento...</h2>
+        <h2 id="status">Redirecionando em 3 segundos...</h2>
     </div>
 
-    <script>
-        const defaultUrl = "https://npca.vercel.app/";
-
-        function normalizePath(path) {
-            return path.replace(/\/+$/, "").toLowerCase() || "/";
-        }
-
-        function getRedirectTable(markdown) {
-            const rows = markdown.split(/\r?\n/)
-                .filter(line => line.trim().startsWith("|") && line.trim().endsWith("|"))
-                .map(line => line.trim().slice(1, -1).split("|").map(cell => cell.trim()));
-
-            const headerIndex = rows.findIndex(row =>
-                row.some(cell => cell.toLowerCase() === "path") &&
-                row.some(cell => cell.toLowerCase() === "redirect")
-            );
-
-            if (headerIndex === -1) {
-                throw new Error("A tabela de redirecionamentos não foi encontrada no README.md.");
-            }
-
-            const headers = rows[headerIndex].map(cell => cell.toLowerCase());
-            const pathIndex = headers.indexOf("path");
-            const redirectIndex = headers.indexOf("redirect");
-            const redirects = new Map();
-
-            for (const row of rows.slice(headerIndex + 1)) {
-                if (row.length <= Math.max(pathIndex, redirectIndex) ||
-                    /^:?-{3,}:?$/.test(row[pathIndex]) ||
-                    /^:?-{3,}:?$/.test(row[redirectIndex])) {
-                    continue;
-                }
-
-                redirects.set(normalizePath(row[pathIndex]), row[redirectIndex]);
-            }
-
-            return redirects;
-        }
-
-        async function redirect() {
-            const status = document.getElementById("status");
-
-            try {
-                const response = await fetch("/README.md");
-                if (!response.ok) {
-                    throw new Error(`Falha ao carregar README.md (HTTP ${response.status}).`);
-                }
-
-                const markdown = await response.text();
-                const redirects = getRedirectTable(markdown);
-                const targetUrl = redirects.get(normalizePath(window.location.pathname));
-
-                if (targetUrl) {
-                    status.textContent = "Redirecionando...";
-                    window.location.replace(targetUrl);
-                } else {
-                    status.textContent = "Página não encontrada. Redirecionando...";
-                    window.location.replace(defaultUrl);
-                }
-            } catch (error) {
-                console.error("Não foi possível carregar os redirecionamentos:", error);
-                status.textContent = "Não foi possível carregar os redirecionamentos. Tente novamente mais tarde.";
-            }
-        }
-
-        redirect();
-    </script>
+    <script src="./app.js"></script>
 </body>
 </html>
