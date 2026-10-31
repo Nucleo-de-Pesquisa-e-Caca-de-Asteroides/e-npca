@@ -1,0 +1,6 @@
+| Path             | Redirect |
+| :---             | :---     |
+| /termo-interesse | /cdn/Termo de Consentimento e Autorização de Participação - Formulário de Interesse.pdf |
+| /dir-ori         | https://forms.gle/KN82Mry6wFNyW7N47 |
+| /dir-cap         | https://forms.gle/mGNG2QLXTurNCXNE8 |
+| /dir-com         | https://forms.gle/Z8RhrwYbVdu3jNLj7 |
